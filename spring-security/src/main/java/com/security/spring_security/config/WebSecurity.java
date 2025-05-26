@@ -42,6 +42,7 @@ public class WebSecurity {
 //        ).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults());
 
         //if any request coming from register api then it will not be authenticated because register karne mein why do we authenticate
+
         httpSecurity.csrf(csrf -> csrf.disable()).authorizeHttpRequests(
                 request -> request.requestMatchers("register","login").permitAll().anyRequest().authenticated()
         ).httpBasic(Customizer.withDefaults());
@@ -61,7 +62,7 @@ public class WebSecurity {
         return new InMemoryUserDetailsManager(talib,zaid);
 
     }
-
+//
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
@@ -69,9 +70,10 @@ public class WebSecurity {
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         provider.setUserDetailsService(userDetailsService);
-//        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-        provider.setPasswordEncoder(bCryptPasswordEncoder());
+        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        provider.setPasswordEncoder( bCryptPasswordEncoder);
         return provider;
     }
 

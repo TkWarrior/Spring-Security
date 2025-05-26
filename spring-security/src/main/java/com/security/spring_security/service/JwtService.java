@@ -31,7 +31,6 @@ public class JwtService {
                 .and()
                 .signWith(generateKey())
                 .compact();
-
     }
 
     private SecretKey generateKey(){
